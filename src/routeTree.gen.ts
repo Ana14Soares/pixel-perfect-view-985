@@ -10,33 +10,168 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AdminRouteImport } from './routes/admin'
+import { Route as AtrasosRouteImport } from './routes/atrasos'
+import { Route as DevolucaoRouteImport } from './routes/devolucao'
+import { Route as LoginRouteImport } from './routes/login'
+import { Route as AlunosIndexRouteImport } from './routes/alunos.index'
+import { Route as AlunosAlunoIdRouteImport } from './routes/alunos.$alunoId'
+import { Route as EmprestimosIndexRouteImport } from './routes/emprestimos.index'
+import { Route as EmprestimosNovoRouteImport } from './routes/emprestimos.novo'
+import { Route as EquipamentosIndexRouteImport } from './routes/equipamentos.index'
+import { Route as EquipamentosEquipamentoIdRouteImport } from './routes/equipamentos.$equipamentoId'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminRoute = AdminRouteImport.update({
+  id: '/admin',
+  path: '/admin',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AtrasosRoute = AtrasosRouteImport.update({
+  id: '/atrasos',
+  path: '/atrasos',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DevolucaoRoute = DevolucaoRouteImport.update({
+  id: '/devolucao',
+  path: '/devolucao',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LoginRoute = LoginRouteImport.update({
+  id: '/login',
+  path: '/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AlunosIndexRoute = AlunosIndexRouteImport.update({
+  id: '/alunos/',
+  path: '/alunos/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AlunosAlunoIdRoute = AlunosAlunoIdRouteImport.update({
+  id: '/alunos/$alunoId',
+  path: '/alunos/$alunoId',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const EmprestimosIndexRoute = EmprestimosIndexRouteImport.update({
+  id: '/emprestimos/',
+  path: '/emprestimos/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const EmprestimosNovoRoute = EmprestimosNovoRouteImport.update({
+  id: '/emprestimos/novo',
+  path: '/emprestimos/novo',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const EquipamentosIndexRoute = EquipamentosIndexRouteImport.update({
+  id: '/equipamentos/',
+  path: '/equipamentos/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const EquipamentosEquipamentoIdRoute =
+  EquipamentosEquipamentoIdRouteImport.update({
+    id: '/equipamentos/$equipamentoId',
+    path: '/equipamentos/$equipamentoId',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/admin': typeof AdminRoute
+  '/atrasos': typeof AtrasosRoute
+  '/devolucao': typeof DevolucaoRoute
+  '/login': typeof LoginRoute
+  '/alunos/$alunoId': typeof AlunosAlunoIdRoute
+  '/emprestimos/novo': typeof EmprestimosNovoRoute
+  '/equipamentos/$equipamentoId': typeof EquipamentosEquipamentoIdRoute
+  '/alunos/': typeof AlunosIndexRoute
+  '/emprestimos/': typeof EmprestimosIndexRoute
+  '/equipamentos/': typeof EquipamentosIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/admin': typeof AdminRoute
+  '/atrasos': typeof AtrasosRoute
+  '/devolucao': typeof DevolucaoRoute
+  '/login': typeof LoginRoute
+  '/alunos/$alunoId': typeof AlunosAlunoIdRoute
+  '/emprestimos/novo': typeof EmprestimosNovoRoute
+  '/equipamentos/$equipamentoId': typeof EquipamentosEquipamentoIdRoute
+  '/alunos': typeof AlunosIndexRoute
+  '/emprestimos': typeof EmprestimosIndexRoute
+  '/equipamentos': typeof EquipamentosIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/admin': typeof AdminRoute
+  '/atrasos': typeof AtrasosRoute
+  '/devolucao': typeof DevolucaoRoute
+  '/login': typeof LoginRoute
+  '/alunos/$alunoId': typeof AlunosAlunoIdRoute
+  '/emprestimos/novo': typeof EmprestimosNovoRoute
+  '/equipamentos/$equipamentoId': typeof EquipamentosEquipamentoIdRoute
+  '/alunos/': typeof AlunosIndexRoute
+  '/emprestimos/': typeof EmprestimosIndexRoute
+  '/equipamentos/': typeof EquipamentosIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/admin'
+    | '/atrasos'
+    | '/devolucao'
+    | '/login'
+    | '/alunos/$alunoId'
+    | '/emprestimos/novo'
+    | '/equipamentos/$equipamentoId'
+    | '/alunos/'
+    | '/emprestimos/'
+    | '/equipamentos/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/admin'
+    | '/atrasos'
+    | '/devolucao'
+    | '/login'
+    | '/alunos/$alunoId'
+    | '/emprestimos/novo'
+    | '/equipamentos/$equipamentoId'
+    | '/alunos'
+    | '/emprestimos'
+    | '/equipamentos'
+  id:
+    | '__root__'
+    | '/'
+    | '/admin'
+    | '/atrasos'
+    | '/devolucao'
+    | '/login'
+    | '/alunos/$alunoId'
+    | '/emprestimos/novo'
+    | '/equipamentos/$equipamentoId'
+    | '/alunos/'
+    | '/emprestimos/'
+    | '/equipamentos/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AdminRoute: typeof AdminRoute
+  AtrasosRoute: typeof AtrasosRoute
+  DevolucaoRoute: typeof DevolucaoRoute
+  LoginRoute: typeof LoginRoute
+  AlunosAlunoIdRoute: typeof AlunosAlunoIdRoute
+  EmprestimosNovoRoute: typeof EmprestimosNovoRoute
+  EquipamentosEquipamentoIdRoute: typeof EquipamentosEquipamentoIdRoute
+  AlunosIndexRoute: typeof AlunosIndexRoute
+  EmprestimosIndexRoute: typeof EmprestimosIndexRoute
+  EquipamentosIndexRoute: typeof EquipamentosIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,22 +183,92 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin': {
+      id: '/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AdminRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/atrasos': {
+      id: '/atrasos'
+      path: '/atrasos'
+      fullPath: '/atrasos'
+      preLoaderRoute: typeof AtrasosRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/devolucao': {
+      id: '/devolucao'
+      path: '/devolucao'
+      fullPath: '/devolucao'
+      preLoaderRoute: typeof DevolucaoRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/login': {
+      id: '/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof LoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/alunos/': {
+      id: '/alunos/'
+      path: '/alunos'
+      fullPath: '/alunos/'
+      preLoaderRoute: typeof AlunosIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/alunos/$alunoId': {
+      id: '/alunos/$alunoId'
+      path: '/alunos/$alunoId'
+      fullPath: '/alunos/$alunoId'
+      preLoaderRoute: typeof AlunosAlunoIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/emprestimos/': {
+      id: '/emprestimos/'
+      path: '/emprestimos'
+      fullPath: '/emprestimos/'
+      preLoaderRoute: typeof EmprestimosIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/emprestimos/novo': {
+      id: '/emprestimos/novo'
+      path: '/emprestimos/novo'
+      fullPath: '/emprestimos/novo'
+      preLoaderRoute: typeof EmprestimosNovoRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/equipamentos/': {
+      id: '/equipamentos/'
+      path: '/equipamentos'
+      fullPath: '/equipamentos/'
+      preLoaderRoute: typeof EquipamentosIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/equipamentos/$equipamentoId': {
+      id: '/equipamentos/$equipamentoId'
+      path: '/equipamentos/$equipamentoId'
+      fullPath: '/equipamentos/$equipamentoId'
+      preLoaderRoute: typeof EquipamentosEquipamentoIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AdminRoute: AdminRoute,
+  AtrasosRoute: AtrasosRoute,
+  DevolucaoRoute: DevolucaoRoute,
+  LoginRoute: LoginRoute,
+  AlunosAlunoIdRoute: AlunosAlunoIdRoute,
+  EmprestimosNovoRoute: EmprestimosNovoRoute,
+  EquipamentosEquipamentoIdRoute: EquipamentosEquipamentoIdRoute,
+  AlunosIndexRoute: AlunosIndexRoute,
+  EmprestimosIndexRoute: EmprestimosIndexRoute,
+  EquipamentosIndexRoute: EquipamentosIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}
