@@ -17,6 +17,7 @@ import { Route as AlunosIndexRouteImport } from './routes/alunos.index'
 import { Route as AlunosAlunoIdRouteImport } from './routes/alunos.$alunoId'
 import { Route as EmprestimosIndexRouteImport } from './routes/emprestimos.index'
 import { Route as EmprestimosNovoRouteImport } from './routes/emprestimos.novo'
+import { Route as EquipamentosIndexRouteImport } from './routes/equipamentos.index'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -58,6 +59,11 @@ const EmprestimosNovoRoute = EmprestimosNovoRouteImport.update({
   path: '/emprestimos/novo',
   getParentRoute: () => rootRouteImport,
 } as any)
+const EquipamentosIndexRoute = EquipamentosIndexRouteImport.update({
+  id: '/equipamentos/',
+  path: '/equipamentos/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -68,6 +74,7 @@ export interface FileRoutesByFullPath {
   '/emprestimos/novo': typeof EmprestimosNovoRoute
   '/alunos/': typeof AlunosIndexRoute
   '/emprestimos/': typeof EmprestimosIndexRoute
+  '/equipamentos/': typeof EquipamentosIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -78,6 +85,7 @@ export interface FileRoutesByTo {
   '/emprestimos/novo': typeof EmprestimosNovoRoute
   '/alunos': typeof AlunosIndexRoute
   '/emprestimos': typeof EmprestimosIndexRoute
+  '/equipamentos': typeof EquipamentosIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -89,6 +97,7 @@ export interface FileRoutesById {
   '/emprestimos/novo': typeof EmprestimosNovoRoute
   '/alunos/': typeof AlunosIndexRoute
   '/emprestimos/': typeof EmprestimosIndexRoute
+  '/equipamentos/': typeof EquipamentosIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -101,6 +110,7 @@ export interface FileRouteTypes {
     | '/emprestimos/novo'
     | '/alunos/'
     | '/emprestimos/'
+    | '/equipamentos/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -111,6 +121,7 @@ export interface FileRouteTypes {
     | '/emprestimos/novo'
     | '/alunos'
     | '/emprestimos'
+    | '/equipamentos'
   id:
     | '__root__'
     | '/'
@@ -121,6 +132,7 @@ export interface FileRouteTypes {
     | '/emprestimos/novo'
     | '/alunos/'
     | '/emprestimos/'
+    | '/equipamentos/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -132,6 +144,7 @@ export interface RootRouteChildren {
   EmprestimosNovoRoute: typeof EmprestimosNovoRoute
   AlunosIndexRoute: typeof AlunosIndexRoute
   EmprestimosIndexRoute: typeof EmprestimosIndexRoute
+  EquipamentosIndexRoute: typeof EquipamentosIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -192,6 +205,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof EmprestimosNovoRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/equipamentos/': {
+      id: '/equipamentos/'
+      path: '/equipamentos'
+      fullPath: '/equipamentos/'
+      preLoaderRoute: typeof EquipamentosIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -204,6 +224,7 @@ const rootRouteChildren: RootRouteChildren = {
   EmprestimosNovoRoute: EmprestimosNovoRoute,
   AlunosIndexRoute: AlunosIndexRoute,
   EmprestimosIndexRoute: EmprestimosIndexRoute,
+  EquipamentosIndexRoute: EquipamentosIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
