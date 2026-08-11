@@ -14,7 +14,7 @@ export function hojeLocal(): string {
 
 /** Soma dias corridos a uma data YYYY-MM-DD (sem efeito de fuso). */
 export function somarDias(iso: string, dias: number): string {
-  const [a, m, d] = iso.split("-").map(Number);
+  const [a, m, d] = iso.split("-").map(Number) as [number, number, number];
   const base = Date.UTC(a, m - 1, d) + dias * 86400000;
   return new Date(base).toISOString().slice(0, 10);
 }
@@ -22,7 +22,7 @@ export function somarDias(iso: string, dias: number): string {
 /** Diferença em dias inteiros entre duas datas YYYY-MM-DD (a - b). */
 export function diffDias(a: string, b: string): number {
   const p = (s: string) => {
-    const [y, m, d] = s.split("-").map(Number);
+    const [y, m, d] = s.split("-").map(Number) as [number, number, number];
     return Date.UTC(y, m - 1, d);
   };
   return Math.round((p(a) - p(b)) / 86400000);
