@@ -18,6 +18,7 @@ import { Route as AlunosAlunoIdRouteImport } from './routes/alunos.$alunoId'
 import { Route as EmprestimosIndexRouteImport } from './routes/emprestimos.index'
 import { Route as EmprestimosNovoRouteImport } from './routes/emprestimos.novo'
 import { Route as EquipamentosIndexRouteImport } from './routes/equipamentos.index'
+import { Route as EquipamentosEquipamentoIdRouteImport } from './routes/equipamentos.$equipamentoId'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -64,6 +65,12 @@ const EquipamentosIndexRoute = EquipamentosIndexRouteImport.update({
   path: '/equipamentos/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const EquipamentosEquipamentoIdRoute =
+  EquipamentosEquipamentoIdRouteImport.update({
+    id: '/equipamentos/$equipamentoId',
+    path: '/equipamentos/$equipamentoId',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -72,6 +79,7 @@ export interface FileRoutesByFullPath {
   '/login': typeof LoginRoute
   '/alunos/$alunoId': typeof AlunosAlunoIdRoute
   '/emprestimos/novo': typeof EmprestimosNovoRoute
+  '/equipamentos/$equipamentoId': typeof EquipamentosEquipamentoIdRoute
   '/alunos/': typeof AlunosIndexRoute
   '/emprestimos/': typeof EmprestimosIndexRoute
   '/equipamentos/': typeof EquipamentosIndexRoute
@@ -83,6 +91,7 @@ export interface FileRoutesByTo {
   '/login': typeof LoginRoute
   '/alunos/$alunoId': typeof AlunosAlunoIdRoute
   '/emprestimos/novo': typeof EmprestimosNovoRoute
+  '/equipamentos/$equipamentoId': typeof EquipamentosEquipamentoIdRoute
   '/alunos': typeof AlunosIndexRoute
   '/emprestimos': typeof EmprestimosIndexRoute
   '/equipamentos': typeof EquipamentosIndexRoute
@@ -95,6 +104,7 @@ export interface FileRoutesById {
   '/login': typeof LoginRoute
   '/alunos/$alunoId': typeof AlunosAlunoIdRoute
   '/emprestimos/novo': typeof EmprestimosNovoRoute
+  '/equipamentos/$equipamentoId': typeof EquipamentosEquipamentoIdRoute
   '/alunos/': typeof AlunosIndexRoute
   '/emprestimos/': typeof EmprestimosIndexRoute
   '/equipamentos/': typeof EquipamentosIndexRoute
@@ -108,6 +118,7 @@ export interface FileRouteTypes {
     | '/login'
     | '/alunos/$alunoId'
     | '/emprestimos/novo'
+    | '/equipamentos/$equipamentoId'
     | '/alunos/'
     | '/emprestimos/'
     | '/equipamentos/'
@@ -119,6 +130,7 @@ export interface FileRouteTypes {
     | '/login'
     | '/alunos/$alunoId'
     | '/emprestimos/novo'
+    | '/equipamentos/$equipamentoId'
     | '/alunos'
     | '/emprestimos'
     | '/equipamentos'
@@ -130,6 +142,7 @@ export interface FileRouteTypes {
     | '/login'
     | '/alunos/$alunoId'
     | '/emprestimos/novo'
+    | '/equipamentos/$equipamentoId'
     | '/alunos/'
     | '/emprestimos/'
     | '/equipamentos/'
@@ -142,6 +155,7 @@ export interface RootRouteChildren {
   LoginRoute: typeof LoginRoute
   AlunosAlunoIdRoute: typeof AlunosAlunoIdRoute
   EmprestimosNovoRoute: typeof EmprestimosNovoRoute
+  EquipamentosEquipamentoIdRoute: typeof EquipamentosEquipamentoIdRoute
   AlunosIndexRoute: typeof AlunosIndexRoute
   EmprestimosIndexRoute: typeof EmprestimosIndexRoute
   EquipamentosIndexRoute: typeof EquipamentosIndexRoute
@@ -212,6 +226,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof EquipamentosIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/equipamentos/$equipamentoId': {
+      id: '/equipamentos/$equipamentoId'
+      path: '/equipamentos/$equipamentoId'
+      fullPath: '/equipamentos/$equipamentoId'
+      preLoaderRoute: typeof EquipamentosEquipamentoIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -222,6 +243,7 @@ const rootRouteChildren: RootRouteChildren = {
   LoginRoute: LoginRoute,
   AlunosAlunoIdRoute: AlunosAlunoIdRoute,
   EmprestimosNovoRoute: EmprestimosNovoRoute,
+  EquipamentosEquipamentoIdRoute: EquipamentosEquipamentoIdRoute,
   AlunosIndexRoute: AlunosIndexRoute,
   EmprestimosIndexRoute: EmprestimosIndexRoute,
   EquipamentosIndexRoute: EquipamentosIndexRoute,
