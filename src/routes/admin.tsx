@@ -48,7 +48,7 @@ function Admin() {
     queryFn: async () => {
       const { data, error } = await supabase
         .from("auditoria")
-        .select("id,criado_em,acao,entidade,entidade_id,detalhes")
+        .select("id,criado_em,acao,entidade,entidade_id,dados")
         .order("criado_em", { ascending: false })
         .limit(100);
       if (error) throw error;
@@ -133,7 +133,7 @@ function Admin() {
                     <span className="block text-muted-foreground">{a.entidade_id}</span>
                   </td>
                   <td className={tdClasse + " max-w-md truncate text-xs text-muted-foreground"}>
-                    {JSON.stringify(a.detalhes)}
+                    {JSON.stringify(a.dados)}
                   </td>
                 </tr>
               ))}
