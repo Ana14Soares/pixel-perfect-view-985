@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as DevolucaoRouteImport } from './routes/devolucao'
 import { Route as LoginRouteImport } from './routes/login'
+import { Route as EmprestimosIndexRouteImport } from './routes/emprestimos.index'
 import { Route as EmprestimosNovoRouteImport } from './routes/emprestimos.novo'
 
 const IndexRoute = IndexRouteImport.update({
@@ -29,6 +30,11 @@ const LoginRoute = LoginRouteImport.update({
   path: '/login',
   getParentRoute: () => rootRouteImport,
 } as any)
+const EmprestimosIndexRoute = EmprestimosIndexRouteImport.update({
+  id: '/emprestimos/',
+  path: '/emprestimos/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const EmprestimosNovoRoute = EmprestimosNovoRouteImport.update({
   id: '/emprestimos/novo',
   path: '/emprestimos/novo',
@@ -40,12 +46,14 @@ export interface FileRoutesByFullPath {
   '/devolucao': typeof DevolucaoRoute
   '/login': typeof LoginRoute
   '/emprestimos/novo': typeof EmprestimosNovoRoute
+  '/emprestimos/': typeof EmprestimosIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/devolucao': typeof DevolucaoRoute
   '/login': typeof LoginRoute
   '/emprestimos/novo': typeof EmprestimosNovoRoute
+  '/emprestimos': typeof EmprestimosIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -53,13 +61,21 @@ export interface FileRoutesById {
   '/devolucao': typeof DevolucaoRoute
   '/login': typeof LoginRoute
   '/emprestimos/novo': typeof EmprestimosNovoRoute
+  '/emprestimos/': typeof EmprestimosIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/devolucao' | '/login' | '/emprestimos/novo'
+  fullPaths:
+    '/' | '/devolucao' | '/login' | '/emprestimos/novo' | '/emprestimos/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/devolucao' | '/login' | '/emprestimos/novo'
-  id: '__root__' | '/' | '/devolucao' | '/login' | '/emprestimos/novo'
+  to: '/' | '/devolucao' | '/login' | '/emprestimos/novo' | '/emprestimos'
+  id:
+    | '__root__'
+    | '/'
+    | '/devolucao'
+    | '/login'
+    | '/emprestimos/novo'
+    | '/emprestimos/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -67,6 +83,7 @@ export interface RootRouteChildren {
   DevolucaoRoute: typeof DevolucaoRoute
   LoginRoute: typeof LoginRoute
   EmprestimosNovoRoute: typeof EmprestimosNovoRoute
+  EmprestimosIndexRoute: typeof EmprestimosIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -92,6 +109,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LoginRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/emprestimos/': {
+      id: '/emprestimos/'
+      path: '/emprestimos'
+      fullPath: '/emprestimos/'
+      preLoaderRoute: typeof EmprestimosIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/emprestimos/novo': {
       id: '/emprestimos/novo'
       path: '/emprestimos/novo'
@@ -107,6 +131,7 @@ const rootRouteChildren: RootRouteChildren = {
   DevolucaoRoute: DevolucaoRoute,
   LoginRoute: LoginRoute,
   EmprestimosNovoRoute: EmprestimosNovoRoute,
+  EmprestimosIndexRoute: EmprestimosIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
