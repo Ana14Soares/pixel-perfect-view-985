@@ -5,7 +5,7 @@ Trabalho 1 — Engenharia de Software
 
 > **Antes de entregar:** preencha os campos marcados com `<...>` (nomes da dupla, horas, ferramenta de IA usada) e confira se as decisões abaixo continuam correspondendo ao código entregue.
 
-Dupla: `<nome 1>` e `<nome 2>`
+Dupla: `Ana Luiza Soares` e `Ana Vírna Carvalho`
 Repositório: `<url do repositório>`
 
 ---
