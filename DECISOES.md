@@ -172,42 +172,6 @@ A regra "aluno com pendência não pode pegar mais nada" é a única regra expl�
 
 ---
 
-## 4. Decisões da ferramenta de IA
-
-### 4.1 Cadastro aberto na tela de login
-
-**O que foi decidido:** a tela de login (`src/routes/login.tsx`, função `criarConta`) expõe um link "Primeiro acesso: criar o usuário técnico com estes dados" que chama `supabase.auth.signUp` com o e-mail e a senha digitados, seguido de login automático. Não pedimos esse recurso — a especificação previa apenas um usuário técnico de demonstração.
-
-**Por que é plausível:** sem ele, um sistema recém-instalado não tem nenhum usuário, e ninguém consegue entrar para criar o primeiro. A ferramenta resolveu o problema do primeiro acesso da forma mais direta possível.
-
-**Por que pode ser inadequada para este cliente:** o cadastro fica aberto permanentemente, não apenas no primeiro uso. Combinado com as políticas RLS geradas — `USING (true)` para qualquer usuário autenticado, em todas as quatro tabelas — o resultado é que **qualquer pessoa com o endereço da aplicação pode criar uma conta e obter acesso total de leitura e escrita** aos dados de alunos, equipamentos e empréstimos, inclusive apagando a base pelo reset de demonstração. Para um laboratório que guarda nomes, matrículas, e-mails e telefones de alunos, isso é exposição de dados pessoais. O correto seria criar o técnico uma única vez pelo painel do Supabase, desativar o cadastro público e condicionar as políticas a uma tabela de perfis autorizados.
-
-### 4.2 Reset de demonstração acessível a qualquer usuário autenticado
-
-**O que foi decidido:** `fn_reset_demo` (primeira migration) apaga `auditoria`, `emprestimos`, `equipamentos` e `alunos` e recria a base de demonstração. A ferramenta concedeu `EXECUTE` dessa função ao papel `authenticated`, exatamente como fez com as funções de operação cotidiana. A proteção existente é apenas na interface: `src/routes/admin.tsx` exige digitar `RESETAR` antes de habilitar o botão.
-
-**Por que é plausível:** pedimos o botão de reset e não dissemos quem poderia usá-lo; havendo um único perfil, tratá-lo como qualquer outra operação é coerente.
-
-**Por que pode ser inadequada:** a confirmação por digitação é apenas visual — a função é uma RPC que qualquer usuário autenticado pode chamar diretamente com a chave publishable, sem passar pela tela. Um recurso destrutivo e irreversível ficou no mesmo nível de permissão do registro de um empréstimo. Em uso real, o reset não deveria existir em produção, ou deveria exigir o papel de serviço.
-
-### 4.3 Regras de negócio duplicadas entre banco e interface
-
-**O que foi decidido:** os valores `PRAZO_PADRAO_DIAS = 7`, `LIMITE_EMPRESTIMOS = 3` e a função `diasAtraso` foram declarados em `src/lib/dominio.ts`, replicando regras que já existem dentro de `fn_emprestar` e `aluno_pendencia` no banco. A ferramenta implementou a mesma regra duas vezes, em duas linguagens.
-
-**Por que é plausível:** a interface precisa sugerir a data prevista, colorir os atrasos e exibir os parâmetros vigentes na tela de administração sem uma ida ao servidor a cada tecla.
-
-**Por que pode ser inadequada:** as duas cópias podem divergir silenciosamente. Se o cliente pedir prazo de 10 dias e a alteração for feita apenas em `dominio.ts`, o formulário passa a sugerir 10 dias e o banco continua validando a faixa antiga — o técnico vê a data preenchida pelo próprio sistema ser recusada por `PRAZO_INVALIDO`, sem explicação. O banco deveria expor esses parâmetros e a interface lê-los, em vez de reafirmá-los.
-
-### 4.4 Limites e filtros padrão não solicitados
-
-**O que foi decidido:** a busca de alunos em `src/routes/emprestimos.novo.tsx` só dispara a partir de 2 caracteres e trunca em 20 resultados (`.limit(20)`); a listagem de `/emprestimos` abre com o filtro "Em aberto" e não "Todos"; o relatório de atrasos ordena por dias de atraso decrescente e exporta CSV separado por ponto e vírgula com BOM UTF-8 (`src/routes/atrasos.tsx`).
-
-**Por que é plausível:** todas são escolhas razoáveis de usabilidade — o ponto e vírgula com BOM, em particular, é o que faz o CSV abrir corretamente no Excel em português.
-
-**Por que pode ser inadequada:** o truncamento em 20 é silencioso. Numa turma com muitos sobrenomes repetidos, o técnico busca "Silva", não encontra o aluno certo, e nada na tela indica que a lista foi cortada. O aluno some da busca sem que ninguém perceba, e a decisão de exibir apenas os 20 primeiros por ordem alfabética nunca foi tomada por nós nem pelo cliente.
-
----
-
 ## Declaração de uso de IA
 
 **Ferramenta utilizada:** `<Lovable / Claude>`
