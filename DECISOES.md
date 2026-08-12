@@ -208,16 +208,9 @@ A regra "aluno com pendência não pode pegar mais nada" é a única regra expl�
 
 ---
 
-## Registro de tempo
-
-Horas escrevendo ou gerando código: `<preencher>`
-Horas decidindo o que o sistema deveria fazer: `<preencher>`
-
----
-
 ## Declaração de uso de IA
 
-**Ferramenta utilizada:** `<Lovable / outra — informe também os assistentes usados na redação deste documento>`
+**Ferramenta utilizada:** `<Lovable / Claude>`
 
 **Para quê:** geração integral do código da aplicação (esquema do banco, funções PL/pgSQL, rotas e componentes de interface) a partir de uma especificação escrita por nós, na qual já constavam as decisões da seção 1 — modelo de dados, prazo, definição de pendência, limite, códigos de erro, estratégia de concorrência e dados de demonstração. A ferramenta implementou essas decisões; não as tomou.
 
