@@ -72,47 +72,6 @@ O pedido não diz o que fazer quando o técnico registra algo errado. Assumimos 
 
 Se o cliente esperasse poder simplesmente apagar o registro errado, o impacto seria: além de perder a trilha de auditoria, o índice único parcial deixaria de proteger contra duplicidade histórica, e o relatório de atrasos passaria a ser não reprodutível — dois técnicos consultando o mesmo período em momentos diferentes veriam listas diferentes sem que nada no sistema explicasse a divergência.
 
-### 1.11 Extravio: marcação manual, nunca automática
-
-O pedido diz "não queremos que os equipamentos sumam", sem definir quando um item some. Assumimos que **o sistema não decide sozinho**: `fn_marcar_extravio` é acionada pelo técnico, muda o equipamento para `EXTRAVIADO` e **mantém o empréstimo em aberto**, preservando a pendência do aluno. O relatório apenas sinaliza como "possível extravio" os atrasos acima de `DIAS_POSSIVEL_EXTRAVIO = 30` dias, sem alterar nada.
-
-Se o cliente esperasse baixa automática após N dias, o impacto seria: introduzir execução agendada no servidor — hoje o sistema não tem nenhum processo que rode sem alguém clicando —, definir com o cliente o valor de N, e decidir o efeito sobre a pendência do aluno, que hoje só termina com a devolução. Um item baixado automaticamente nunca mais seria devolvido, e o aluno ficaria pendente para sempre sem intervenção manual.
-
-### 1.12 Quantidade zero / nenhum item disponível
-
-O pedido não trata da indisponibilidade. Assumimos **recusa imediata, sem fila de espera nem reserva**: a tela de novo empréstimo lista apenas equipamentos com status `DISPONIVEL`, e `fn_emprestar` recusa com `INDISPONIVEL` caso o status tenha mudado entre a listagem e a confirmação.
-
-Se o cliente esperasse fila de espera, o impacto seria: uma tabela `reservas` com ordem e validade, um novo estado do equipamento entre "devolvido" e "disponível" (reservado para o próximo da fila), e uma decisão que o pedido não permite inferir — o que acontece quando o primeiro da fila não aparece.
-
-### 1.13 Identificação do aluno e cadastro prévio
-
-O pedido não define como o aluno é identificado. Assumimos **matrícula como identificador único** (`alunos.matricula UNIQUE`), com **cadastro prévio obrigatório**: o sistema não cria aluno durante o empréstimo. Aluno inativo é recusado com `ALUNO_INATIVO` mas continua podendo devolver.
-
-Se o cliente esperasse cadastro no ato, o impacto seria: a tela de novo empréstimo ganharia um formulário de criação embutido, e a matrícula deixaria de ser garantia de unicidade na prática — sob pressa no balcão, o mesmo aluno seria cadastrado com grafias diferentes, e o bloqueio por pendência passaria a ser contornável simplesmente digitando a matrícula errada.
-
-### 1.14 Quem opera o sistema
-
-O pedido cita o técnico como destinatário do relatório e não menciona acesso de alunos. Assumimos **um único perfil, o técnico**, operando no balcão; não há autoatendimento nem consulta pelo aluno. Toda a aplicação exige autenticação (Supabase Auth) e as políticas RLS liberam leitura e escrita para qualquer usuário autenticado.
-
-Se o cliente esperasse que o aluno consultasse o próprio histórico, o impacto seria: introduzir papéis (`tecnico` / `aluno`) em uma tabela de perfis, vincular cada usuário autenticado a uma linha de `alunos`, e reescrever **todas** as políticas RLS, que hoje são `USING (true)` — porque com dois papéis a política deixa de ser "quem entrou pode tudo" e passa a depender de quem é o dono da linha.
-
-### 1.15 Devolução por terceiros
-
-O pedido não diz quem entrega o equipamento de volta. Assumimos que **qualquer pessoa pode devolver**: `fn_devolver` não exige identificação de quem traz o item, apenas o empréstimo e a condição.
-
-Se o cliente esperasse que só o titular devolvesse, o impacto seria: acrescentar verificação de identidade na devolução e definir o procedimento para o caso em que o titular está impedido — regra que o pedido não fornece e que, na prática, transformaria a devolução em uma operação que pode ser recusada, algo que hoje o sistema garante nunca acontecer.
-
-### 1.16 Ausência de valores monetários
-
-O pedido não menciona dinheiro. Assumimos que **não existe multa nem cobrança** em nenhum ponto do sistema: não há coluna de valor, e o atraso produz apenas bloqueio.
-
-Se o cliente esperasse multa por dia de atraso, o impacto seria: acrescentar valores às tabelas, criar o conceito de débito quitado ou não (que é diferente de pendência de devolução, pois sobrevive à entrega do equipamento), e passar a lidar com histórico de valores — o valor da multa muda ao longo do tempo e o sistema precisaria saber qual regra valia na data de cada empréstimo.
-
-### 1.17 Fuso horário fixo
-
-O pedido não trata de fuso, mas todo cálculo de atraso depende disso. Assumimos **`America/Fortaleza` fixo em código**, tanto no banco (`hoje_local()`) quanto no cliente (`TZ` em `src/lib/dominio.ts`), de modo que o resultado independa da configuração da máquina do operador.
-
-Se o laboratório operasse em outro fuso, o impacto seria localizado — uma constante em dois lugares —, mas empréstimos registrados antes da mudança teriam sido avaliados por um limite de dia diferente, e registros próximos à meia-noite mudariam de classificação entre "em dia" e "atrasado".
 
 ---
 
